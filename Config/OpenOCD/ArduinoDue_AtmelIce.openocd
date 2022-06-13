@@ -1,0 +1,10 @@
+# Atmel-ICE JTAG/SWD in-circuit debugger
+adapter driver cmsis-dap
+cmsis_dap_vid_pid 0x03eb 0x2141
+transport select jtag
+
+# Required to ensure gdb uses hard breakpoints if memory map is not loaded
+gdb_breakpoint_override hard
+
+set CHIPNAME at91sam3X8E
+source [find target/at91sam3ax_8x.cfg]
