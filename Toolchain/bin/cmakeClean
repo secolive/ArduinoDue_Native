@@ -1,0 +1,3 @@
+#!/bin/sh
+rm -v CMakeCache.txt Makefile cmake_install.cmake .ninja_deps .ninja_log
+rm -Rfv CMakeFiles build.ninja .cmake

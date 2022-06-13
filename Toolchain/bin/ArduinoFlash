@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e -u
+
+ARDUINO_ROOT="$( dirname "$0" )/../.."
+ARDUINO_ROOT="$( cd "$ARDUINO_ROOT" && /bin/pwd )"
+
+CONFIG_ROOT="$ARDUINO_ROOT/Config"
+OPENOCD_CFG="$CONFIG_ROOT/OpenOCD/ArduinoDue_AtmelIce.openocd"
+
+openocd -f "$OPENOCD_CFG" -c "program $1 verify reset exit"
