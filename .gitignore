@@ -1,0 +1,10 @@
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+out.*/
+.cmake
+.idea
+.ninja_deps
+.ninja_log
+Makefile
+build.ninja
