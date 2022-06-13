@@ -1,3 +1,15 @@
 [submodule "ArduinoCore-sam"]
 	path = ArduinoCore-sam
 	url = https://github.com/arduino/ArduinoCore-sam
+[submodule "Libs/Adafruit_BusIO/src"]
+	path = Libs/Adafruit_BusIO/src
+	url = https://github.com/adafruit/Adafruit_BusIO
+[submodule "Libs/Adafruit_GFX/src"]
+	path = Libs/Adafruit_GFX/src
+	url = https://github.com/adafruit/Adafruit-GFX-Library
+[submodule "Libs/ILI9341_due/src"]
+	path = Libs/ILI9341_due/src
+	url = https://github.com/marekburiak/ILI9341_due
+[submodule "Libs/Adafruit_ILI9341/src"]
+	path = Libs/Adafruit_ILI9341/src
+	url = https://github.com/adafruit/Adafruit_ILI9341

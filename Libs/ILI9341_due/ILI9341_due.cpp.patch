@@ -1,0 +1,32 @@
+1783c1783
+< __attribute__((always_inline))
+---
+> //__attribute__((always_inline))
+2373c2373
+< 	write(c);
+---
+> 	this->write(c);
+2518c2518
+< 		write((uint8_t)*str);
+---
+> 		this->write((uint8_t)*str);
+2532c2532
+< 		write(str[i]);
+---
+> 		this->write(str[i]);
+2546c2546
+< 		write(c);
+---
+> 		this->write(c);
+2966c2966
+< void ILI9341_due::clearPixelsOnLeft(uint16_t pixelsToClearOnLeft) {
+---
+> inline void ILI9341_due::clearPixelsOnLeft(uint16_t pixelsToClearOnLeft) {
+2978c2978
+< void ILI9341_due::clearPixelsOnRight(uint16_t pixelsToClearOnRight) {
+---
+> inline void ILI9341_due::clearPixelsOnRight(uint16_t pixelsToClearOnRight) {
+3265c3265
+< __attribute__((always_inline))
+---
+> //__attribute__((always_inline))
