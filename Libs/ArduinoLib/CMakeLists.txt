@@ -42,6 +42,13 @@ file(GLOB_RECURSE SOURCES
          "${ARDUINO_CORE_SRC}/variants/${ARDUINO_VARIANT}/*.c*"
          "${ARDUINO_CORE_SRC}/libraries/*.c*")
 
+# These files are not the lib per se, rather the core and syscall stubs, which are part of ArduinoSyscalls
+list(FILTER SOURCES EXCLUDE REGEX "/iar_calls_sam3")
+list(FILTER SOURCES EXCLUDE REGEX "/syscalls_sam3")
+list(FILTER SOURCES EXCLUDE REGEX "/abi[.]c")
+list(FILTER SOURCES EXCLUDE REGEX "/new[.]c")
+list(FILTER SOURCES EXCLUDE REGEX "/main[.]c")
+
 
 #
 # Target creation
