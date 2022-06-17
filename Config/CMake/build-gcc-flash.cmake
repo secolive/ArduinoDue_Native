@@ -4,6 +4,7 @@ set(BIN_FILE ${PROJECT_OUTPUT_DIR}/${PROJECT_NAME}.bin)
 
 
 function(buildAsFlashImage target)
+  set_target_properties(${target} PROPERTIES SUFFIX ".elf")
   target_link_options(${target} PRIVATE -static)
   target_link_options(${target} PRIVATE -Wl,--cref -Wl,--print-memory-usage,-Map=${MAP_FILE})
   target_link_options(${target} PRIVATE -T${LINKER_SCRIPT})
