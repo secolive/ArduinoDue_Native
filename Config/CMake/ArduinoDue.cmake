@@ -10,6 +10,7 @@ set(ARDUINO_VARIANT arduino_due_x)
 #
 include(${CMAKE_CURRENT_LIST_DIR}/arduino-base.cmake)
 include(${ARDUINO_CMAKE_DIR}/arduino-project-structure.cmake)
+include(${ARDUINO_CMAKE_DIR}/arduino-outputs.cmake)
 
 include(${CMAKE_CURRENT_LIST_DIR}/arduino-sam-specific.cmake)
 
