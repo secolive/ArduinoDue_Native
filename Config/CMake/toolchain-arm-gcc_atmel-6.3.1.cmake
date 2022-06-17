@@ -1,4 +1,11 @@
 #
+# Toolchain setup
+#
+set(CMAKE_SYSTEM_NAME LINUX)
+set(CMAKE_SYSTEM_VERSION 1)
+
+
+#
 # Toolchain binaries
 #
 set(TOOLCHAIN_BIN ${ARDUINO_TOOLCHAIN_DIR}/arm-none-eabi_atmel-6.3.1/bin)

@@ -16,7 +16,6 @@ set(CMAKE_C_STANDARD 11)
 #
 include(${ARDUINO_CMAKE_DIR}/BuildOptionsStandard.cmake)
 include(${ARDUINO_CMAKE_DIR}/BuildPic.cmake)
-include(${ARDUINO_CMAKE_DIR}/BuildTargetFlashImage.cmake)
 
 
 #
@@ -50,5 +49,6 @@ target_link_libraries(${PROJECT_NAME}.elf ArduinoLib)
 target_link_libraries(${PROJECT_NAME}.elf ArduinoSyscalls)
 target_link_libraries(${PROJECT_NAME}.elf ${ARDUINO_LIB_PLATFORM})
 
+buildAsFlashImage(${PROJECT_NAME}.elf)
 generateHexFiles(${PROJECT_NAME}.elf)
 

@@ -1,11 +1,13 @@
-add_compile_options(-nostdlib)
-add_link_options(-static)
-
+set(MAP_FILE ${PROJECT_OUTPUT_DIR}/${PROJECT_NAME}.map)
 set(HEX_FILE ${PROJECT_OUTPUT_DIR}/${PROJECT_NAME}.hex)
 set(BIN_FILE ${PROJECT_OUTPUT_DIR}/${PROJECT_NAME}.bin)
 
-add_link_options(-Wl,--cref -Wl,--print-memory-usage,-Map=${PROJECT_OUTPUT_DIR}/${PROJECT_NAME}.map)
-add_link_options(-T${LINKER_SCRIPT})
+
+function(buildAsFlashImage target)
+  target_link_options(${target} PRIVATE -static)
+  target_link_options(${target} PRIVATE -Wl,--cref -Wl,--print-memory-usage,-Map=${MAP_FILE})
+  target_link_options(${target} PRIVATE -T${LINKER_SCRIPT})
+endfunction()
 
 function(generateHexFiles target)
   add_custom_command(TARGET ${target} POST_BUILD
