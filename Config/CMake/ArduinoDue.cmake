@@ -1,6 +1,7 @@
 #
 # Paths to various resources
 #
+set(ARDUINO_PLATFORM due)
 include(${CMAKE_CURRENT_LIST_DIR}/arduino-base.cmake)
 include(${ARDUINO_CMAKE_DIR}/build-project-structure.cmake)
 

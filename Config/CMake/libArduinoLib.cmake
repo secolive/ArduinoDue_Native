@@ -2,7 +2,7 @@
 # ArduinoLib
 #
 add_library(ArduinoLib STATIC IMPORTED)
-set_target_properties(ArduinoLib PROPERTIES IMPORTED_LOCATION ${ARDUINO_LIBS}/ArduinoLib/out.${ARDUINO_LIBS_BUILD}/libArduinoLib.a)
+set_target_properties(ArduinoLib PROPERTIES IMPORTED_LOCATION ${ARDUINO_LIBS}/ArduinoLib/${ARDUINO_LIB_SUBDIR}/libArduinoLib.a)
 include_directories(${ARDUINO_LIBS}/ArduinoLib/include/core)
 include_directories(${ARDUINO_LIBS}/ArduinoLib/include/core/USB)
 include_directories(${ARDUINO_LIBS}/ArduinoLib/include/libraries/SPI)
