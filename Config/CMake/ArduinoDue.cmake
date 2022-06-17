@@ -2,6 +2,7 @@
 # Paths to various resources
 #
 include(${CMAKE_CURRENT_LIST_DIR}/arduino-base.cmake)
+include(${ARDUINO_CMAKE_DIR}/build-project-structure.cmake)
 
 
 #
@@ -9,7 +10,6 @@ include(${CMAKE_CURRENT_LIST_DIR}/arduino-base.cmake)
 #
 include(${ARDUINO_CMAKE_DIR}/toolchain-arm-gcc_atmel-6.3.1.cmake)
 include(${ARDUINO_CMAKE_DIR}/build-base-options.cmake)
-include(${ARDUINO_CMAKE_DIR}/build-project-structure.cmake)
 
 
 #

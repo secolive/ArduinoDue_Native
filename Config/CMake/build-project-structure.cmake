@@ -1,6 +1,14 @@
-if("${CMAKE_BUILD_TYPE}" STREQUAL "")
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "RelWithDebInfo")
+elseif ("${CMAKE_BUILD_TYPE}" STREQUAL "MinSizeRel")
+else ()
     set(CMAKE_BUILD_TYPE Debug)
-endif()
+endif ()
+
+
+if ("${ARDUINO_LIBS_BUILD}" STREQUAL "")
+    set(ARDUINO_LIBS_BUILD ${CMAKE_BUILD_TYPE})
+endif ()
 
 set(PROJECT_OUTPUT_DIR ${CMAKE_BINARY_DIR})
 set(PROJECT_OUTPUT_DIR ${CMAKE_BINARY_DIR}/out.${CMAKE_BUILD_TYPE})
