@@ -38,8 +38,7 @@ file(GLOB_RECURSE SOURCES "src/*.c*")
 #
 # Target creation
 #
-add_executable(${PROJECT_NAME} ${SOURCES} ${LINKER_SCRIPT_DIR}/${LINKER_SCRIPT}
-               ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE} ${ARDUINO_STARTUP_SOURCE})
+add_executable(${PROJECT_NAME} ${SOURCES} ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE})
 
 target_link_libraries(${PROJECT_NAME} ILI9341_due)
 target_link_libraries(${PROJECT_NAME} Adafruit_ILI9341)
