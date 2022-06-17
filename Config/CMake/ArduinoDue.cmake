@@ -17,9 +17,11 @@ include(${CMAKE_CURRENT_LIST_DIR}/arduino-sam-specific.cmake)
 #
 # Toolchain setup
 #
-include(${ARDUINO_CMAKE_DIR}/toolchain-arm-gcc_atmel-6.3.1.cmake)
-include(${ARDUINO_CMAKE_DIR}/build-gcc-base-options.cmake)
-include(${ARDUINO_CMAKE_DIR}/build-gcc-sam3x8e.cmake)
+if(NOT DEFINED ARDUINO_BUILD_FOR_HOST)
+  include(${ARDUINO_CMAKE_DIR}/toolchain-arm-gcc_atmel-6.3.1.cmake)
+  include(${ARDUINO_CMAKE_DIR}/build-gcc-base-options.cmake)
+  include(${ARDUINO_CMAKE_DIR}/build-gcc-sam3x8e.cmake)
+endif()
 include(${ARDUINO_CMAKE_DIR}/build-gcc-flash.cmake)
 
 
