@@ -13,3 +13,6 @@
 [submodule "Libs/Adafruit_ILI9341/src"]
 	path = Libs/Adafruit_ILI9341/src
 	url = https://github.com/adafruit/Adafruit_ILI9341
+[submodule "Frameworks/doctest/doctest"]
+	path = Frameworks/doctest/doctest
+	url = https://github.com/doctest/doctest

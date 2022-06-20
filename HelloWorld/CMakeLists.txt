@@ -33,6 +33,7 @@ include(${ARDUINO_CMAKE_DIR}/libILI9341_due.cmake)
 # Project source files
 #
 file(GLOB_RECURSE SOURCES "src/*.c*")
+file(GLOB_RECURSE SOURCES_TEST "tests/*.c*")
 
 
 #
@@ -51,3 +52,7 @@ target_link_libraries(${PROJECT_NAME} ${ARDUINO_LIB_PLATFORM})
 buildAsFlashImage(${PROJECT_NAME})
 generateHexFiles(${PROJECT_NAME})
 
+
+include(${ARDUINO_CMAKE_DIR}/Doctest.cmake)
+add_executable(${PROJECT_NAME}_tests ${SOURCES_TEST})
+buildAsDoctest(${PROJECT_NAME}_tests)
