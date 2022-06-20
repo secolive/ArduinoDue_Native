@@ -1,0 +1,2 @@
+#!/bin/sh
+cmake -DARDUINO_BUILD_FOR_HOST=1 "$@"

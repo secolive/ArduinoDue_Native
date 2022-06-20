@@ -94,9 +94,7 @@ Configuration scripts meant to be used by actual projects:
   toolchain options;
 - `BuildOptionsStandard.cmake`: set of "standard" options traditionally applicable to embedded projects; these are not
   required, so inclusion is optional;
-- `BuildPic.cmake`: include to make the build use Position-Independant Code;
-- `BuildTargetFlashImage.cmake`: set the linker to produce an elf binary, including using the appropriate linker script
-  for building a proper flash image.
+- `BuildPic.cmake`: include to make the build use Position-Independant Code.
 
 Configuration scripts corresponding to individual libraries; each script will define a CMake library object that you can
 reference in your target; it will also add the corresponding include directories:
@@ -108,13 +106,8 @@ reference in your target; it will also add the corresponding include directories
 - `libArduinoSyscalls.cmake`
 - `libILI9341_due.cmake`
 
-Configuration scripts used internally (should not be included in actual projects directly):
+The other configuration scripts are used internally and should not be included in actual projects directly.
 
-- `build-base-options.cmake`: base build options without which building won't be possible;
-- `build-project-structure.cmake`: set up the standard output directory inside each project to be "`out.<target>`";
-- `libSam.cmake`: CMake definition for the Atmel CMSIS library for the SAM3X8E; included by `ArduinoDue.cmake`;
-- `sam3x8e.cmake`: Platform-specific toolchain options and pointers to files required for building a flash image;
-- `toolchain-arm-gcc_atmel-6.3.1.cmake`: CMake definition for the atmel toolchain included in the project.
 
 Creating new software builds
 ----------------------------
@@ -162,34 +155,45 @@ a `CMakeLists.txt` file as follows:
 
 Perform the same first steps as for a library (steps 1-6 above). Then:
 
-7. Ensure you have included the necessary CMake file for building flash images as a target :
-
-        include(${ARDUINO_CMAKE_DIR}/BuildTargetFlashImage.cmake)
-
-8. Define the executable (ELF) target; you need to ensure to include :
+7. Define the executable (ELF) target; you need to make sure to include:
     + an implementation of main; `${ARDUINO_MAIN_SOURCE}` will do if using the Arduino implementation is OK
     + an implementation of the interrupt handlers; `${ARDUINO_HANDLER_SOURCE}` matches the Arduino's implementation; the
       ArduinoLib will not work without the corresponding handlers (in particular the `SysTick_Handler`)
-    + the platform's bootstrap code: `${ARDUINO_STARTUP_SOURCE}`
-    + it's good practice to reference the linker script to ensure dependencies are correct:
-      `${LINKER_SCRIPT_DIR}/${LINKER_SCRIPT}`
 
-          add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT_DIR}/${LINKER_SCRIPT}
-                         ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE} ${ARDUINO_STARTUP_SOURCE})
+          add_executable(${PROJECT_NAME} ${SOURCES} ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE})
 
-9. Make sure to link in all dependent libraries, including indirect dependencies; order is important (depender before
+8. Make sure to link in all dependent libraries, including indirect dependencies; order is important (depender before
    dependee). Make sure to include:
     + a syscalls implementation, for example the Arduino implementation (`ArduinoSyscalls`)
     + the platform core library (`${ARDUINO_LIB_PLATFORM}`)
 
-          target_link_libraries(${PROJECT_NAME}.elf ArduinoLib)
-          target_link_libraries(${PROJECT_NAME}.elf ArduinoSyscalls)
-          target_link_libraries(${PROJECT_NAME}.elf ${ARDUINO_LIB_PLATFORM})
+          target_link_libraries(${PROJECT_NAME} ArduinoLib)
+          target_link_libraries(${PROJECT_NAME} ArduinoSyscalls)
+          target_link_libraries(${PROJECT_NAME} ${ARDUINO_LIB_PLATFORM})
+
+9. Define the target to be built as a flash image; this will set the proper linking options (use the proper linker
+   script and include the startup code):
+
+        buildAsFlashImage(${PROJECT_NAME})
 
 10. Finally, it's recommended to build a bin/hex variant of the target image, it will help you get a sense of the amount
     of flash used by your project:
 
-        generateHexFiles(${PROJECT_NAME}.elf)
+        generateHexFiles(${PROJECT_NAME})
+
+Build for the host instead of the target
+----------------------------------------
+
+By defining the variable `ARDUINO_BUILD_FOR_HOST` when invoking CMake, it's possible to use build a package for the
+host instead of cross-building for the Arduino target. When this flag is used, the target toolchain is not used, and
+the local (default) toolchain will be used instead. Optionally pass a toolchain file to CMake if you want more control
+on the toolchain when building for the host.
+
+When building for the host, the flash images will not be selected for building; the corresponding targets will be
+ignored alltogether. However, libraries and generla-purpose executables will be built.
+
+It is possible to get more control on what will be built on the host and on the target, using the `doNotBuildForHost`
+and `buildOnlyForHost` functions.
 
 Tooling
 -------
@@ -198,9 +202,11 @@ Tooling
 
 Do `cmake .` and then `make` (will build a "Debug" target). Invoke `cmakeRelease .` or `cmakeMinSizeRel .` instead
 of `cmake .` to configure the project in order to build with the corresponding targets ("Release" and "MinSizeRel");
-these
-are simply wrapper scripts making typing a bit easier. As a reminder, the corresponding target-specific build options
-are defined in `build-base-options.cmake`.
+these are simply wrapper scripts making typing a bit easier. As a reminder, the corresponding target-specific build
+options are defined in `build-base-options.cmake`.
+
+Using `cmakeHost .` enables configuration of the package to target the host computer instead of the target (Arduino).
+This is especially useful when building unit tests, for running them locally.
 
 Note that the generated binaries are put in a sub-folder containing the target name, so that various build types can
 coexist for the same piece of software.

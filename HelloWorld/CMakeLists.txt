@@ -38,17 +38,16 @@ file(GLOB_RECURSE SOURCES "src/*.c*")
 #
 # Target creation
 #
-add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT_DIR}/${LINKER_SCRIPT}
-               ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE} ${ARDUINO_STARTUP_SOURCE})
+add_executable(${PROJECT_NAME} ${SOURCES} ${ARDUINO_MAIN_SOURCE} ${ARDUINO_HANDLER_SOURCE})
 
-target_link_libraries(${PROJECT_NAME}.elf ILI9341_due)
-target_link_libraries(${PROJECT_NAME}.elf Adafruit_ILI9341)
-target_link_libraries(${PROJECT_NAME}.elf Adafruit_GFX)
-target_link_libraries(${PROJECT_NAME}.elf Adafruit_BusIO)
-target_link_libraries(${PROJECT_NAME}.elf ArduinoLib)
-target_link_libraries(${PROJECT_NAME}.elf ArduinoSyscalls)
-target_link_libraries(${PROJECT_NAME}.elf ${ARDUINO_LIB_PLATFORM})
+target_link_libraries(${PROJECT_NAME} ILI9341_due)
+target_link_libraries(${PROJECT_NAME} Adafruit_ILI9341)
+target_link_libraries(${PROJECT_NAME} Adafruit_GFX)
+target_link_libraries(${PROJECT_NAME} Adafruit_BusIO)
+target_link_libraries(${PROJECT_NAME} ArduinoLib)
+target_link_libraries(${PROJECT_NAME} ArduinoSyscalls)
+target_link_libraries(${PROJECT_NAME} ${ARDUINO_LIB_PLATFORM})
 
-buildAsFlashImage(${PROJECT_NAME}.elf)
-generateHexFiles(${PROJECT_NAME}.elf)
+buildAsFlashImage(${PROJECT_NAME})
+generateHexFiles(${PROJECT_NAME})
 
