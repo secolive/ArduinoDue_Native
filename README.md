@@ -65,6 +65,7 @@ Content
 - `Config/OpenOCD/`: configuration file for the Atmel-ICE debugger together with the SAM3X8E;
 - `HelloWorld/`: basic project; it implements blinking and basic screen output;
 - `Libs/`: set of libraries necessary or useful for basic Arduino Due development;
+- `Frameworks/doctest/`: doctest framework packaged for Arduino development
 - `Toolchain/arm-none-eabi_atmel-6.3.1/`: copy of the toolchain provided by Atmel for the SAM3X8E;
 - `Toolchain/bin/`: bunch of scripts.
 
@@ -181,8 +182,7 @@ Perform the same first steps as for a library (steps 1-6 above). Then:
 
         generateHexFiles(${PROJECT_NAME})
 
-Build for the host instead of the target
-----------------------------------------
+### Build for the host instead of the target
 
 By defining the variable `ARDUINO_BUILD_FOR_HOST` when invoking CMake, it's possible to use build a package for the
 host instead of cross-building for the Arduino target. When this flag is used, the target toolchain is not used, and
@@ -194,6 +194,33 @@ ignored alltogether. However, libraries and generla-purpose executables will be 
 
 It is possible to get more control on what will be built on the host and on the target, using the `doNotBuildForHost`
 and `buildOnlyForHost` functions.
+
+### Unit tests with doctest
+
+Unit tests can be added to a project by defining one or more dedicated executable targets. Add the following to your
+CMakeLists.txt:
+
+1. Include `Doctest.cmake`:
+
+       include(${ARDUINO_CMAKE_DIR}/Doctest.cmake)
+
+2. Define a new executable target, and include all source files containing the unit tests:
+
+       file(GLOB_RECURSE SOURCES_TEST "tests/*.c*")
+       add_executable(${PROJECT_NAME}_tests ${SOURCES_TEST})
+
+4. Flag the executable as a doctest binary:
+
+       buildAsDoctest(${PROJECT_NAME}_tests)
+
+Note that the resulting target can be built either for the target Arduino Due, or directly for the host computer. This
+enables you to quickly run the tests as part of the development process (Test-Driven Development).
+Use `ARDUINO_BUILD_FOR_HOST` as described above.
+
+Note that when building the unit tests for the target Arduino, an entire flash image will be produced in the form of an
+ELF file. The appropriate boiler code is included to run the tests following a reset, outputting resultso n the console
+serial port. Note that currentl the resulting image is quite big.
+
 
 Tooling
 -------
@@ -288,4 +315,33 @@ _See also [OpenOCD support in CLion's documentation](https://www.jetbrains.com/h
 5. On the left-hand side of the Serial Monitor pane, click on the wrench ("Settings") icon
 6. Set port name to "/dev/cu.usbmodem14301"
 7. Set the baud rate to the same value as what your code sets (often 9600 by default, 115,200 recommended)
+
+### Unit testing
+
+CLion can be configured to directly run the doctest unit tests. Once the doctest executable target has been added to
+your `CMakeLists.txt`, CLion will automatically find the target to be run as unit tests. However, it is also necessary
+to configure the CMake profile enabling a local build for the host.
+
+Details are as follows:
+
+1. CLion -> Preferences, open the "Build, Execution, Deployment" group, then "CMake"; note that this setting is
+   project-specific, meaning you have to define it for every new project.
+2. Use "+" to add a new profile; keep the default toolchain, select the appropriate build type ( typically "Debug");
+   keep the default build tool. Name the profile e.g. as "Debug-Host"
+3. Ensure the profile contains the necessary CMake variable by specifying extra command-line arguments:
+
+       -DARDUINO_BUILD_FOR_HOST=1
+
+![Screenshot of profile for local build](./Documentation/screen_profile_host.png)
+
+4. Run -> Edit Configurations...
+5. Ensure the configuration for the doctest target was added by CLion, otherwise Click "+" and then choose "Doctest"
+6. Ensure the target correspond to the doctest executable target specified in your `CMakeLists.txt`
+
+![Screenshot of doctest run configuration](./Documentation/screen_run_doctest.png)
+
+7. In order to actually run the unit tests, make sure to select the proper run configuration together with the local
+   profile created before:
+
+![Screenshot of run and profile selection](./Documentation/screen_run_doctest2.png)
 
